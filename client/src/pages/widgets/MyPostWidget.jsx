@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { LiveTv, Image } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-import PostPicture from "components/PostPicture";
+import PostModal from "components/PostModal";
 import UserImage from "components/UserImage";
 
 const MyPostWidget = () => {
@@ -57,7 +57,7 @@ const MyPostWidget = () => {
                     <Typography 
                         variant="h4" 
                         component="p"
-                        sx={{ color: "rgba(0, 0, 0, 0.5)" }}
+                        sx={{ color: palette.neutral.main }}
                     >
                         {`Apa yang Anda pikirkan, ${user.firstName}?`}
                     </Typography>
@@ -72,7 +72,7 @@ const MyPostWidget = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <PostPicture handleClose={handleClose} />
+                <PostModal handleClose={handleClose} />
             </Modal>
 
             <Box

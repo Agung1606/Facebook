@@ -8,7 +8,9 @@ import {
     IconButton, 
     Divider, 
     useTheme,
-    Paper
+    Paper,
+    Menu,
+    MenuItem,
 } from "@mui/material";
 import {
     ThumbUpAltOutlined,
@@ -16,6 +18,9 @@ import {
     SendOutlined,
     PeopleOutlineOutlined,
     MoreHorizOutlined,
+    EditOutlined, 
+    DeleteOutlined,
+    Send,
 } from "@mui/icons-material";
 import FlexBetween from "components/FlexBetween";
 import UserImage from "components/UserImage";
@@ -42,9 +47,15 @@ const PostWidget = ({
     const isLiked = Boolean(likes[loggedInUserId]);
     const likeCount = Object.keys(likes).length || 0;
 
+    const [ anchorEl, setAnchorEl ] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
+
     const { palette } = useTheme();
     const primary = palette.primary.main;
 
+    // fix this bug, you just can remove your own post not others
     const deletePost = async () => {
         const response = await fetch(
             `http://localhost:7001/api/v1/posts/${postId}/delete`, {
@@ -128,9 +139,58 @@ const PostWidget = ({
                         </Box>
                     </Box>
                 </Box>
-                <IconButton onClick={deletePost}>
+                {/* OTHERS */}
+                <IconButton 
+                    onClick={handleClick}
+                    aria-controls={open ? "other-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                >
                     <MoreHorizOutlined sx={{ fontSize: "30px" }} />
                 </IconButton>
+                <Menu 
+                    anchorEl={anchorEl}
+                    id="other-menu"
+                    open={open}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                >
+                    {postUserId === user._id && 
+                    <>
+                        <MenuItem
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0 2.5rem",
+                            }}
+                        >
+                            <EditOutlined sx={{ fontSize: "25px" }} />
+                            <Typography variant="h5">Edit</Typography>
+                        </MenuItem>
+                        <MenuItem
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0 2.5rem",
+                            }}
+                            onClick={deletePost}
+                        >
+                            <DeleteOutlined sx={{ fontSize: "25px" }} />
+                            <Typography variant="h5">Hapus</Typography>
+                        </MenuItem>
+                    </>
+                    }
+                    <MenuItem
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0 2.5rem",
+                        }}
+                    >
+                        <Send sx={{ fontSize: "25px" }} />
+                        <Typography variant="h5">Share</Typography>
+                    </MenuItem>
+                </Menu>
             </FlexBetween>
 
             {/* DESCRIPTION AND IMAGE */}
