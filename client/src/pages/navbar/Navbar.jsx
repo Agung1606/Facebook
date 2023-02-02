@@ -39,15 +39,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setMode, setLogout } from "state";
 
 const Navbar = ({ isSidebarOpen, setIsSidebarOpen,  }) => {
+    // const xs = useMediaQuery("(min-width: 480px)");
+    const sm = useMediaQuery("(min-width: 768px)");
+    const md = useMediaQuery("(min-width: 1060px)");
+
     const [active, setActive] = useState("");
     const { pathname } = useLocation();
     const [isSearch, setIsSearch] = useState(false);
 
     const user = useSelector((state) => state.user);
     const mode = useSelector((state) => state.mode);
-    
-    const mediumScreens = useMediaQuery("(min-width: 900px)");
-    const largeScreens = useMediaQuery("(min-width: 1360px)");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -87,7 +88,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen,  }) => {
                                 <Search sx={{ fontSize: "38px"}} />
                             </IconButton>
                         </CustomTooltip>
-                        {mediumScreens ? (
+                        {sm ? (
                             undefined
                         ) : (
                             <CustomTooltip title="Other">
@@ -127,8 +128,8 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen,  }) => {
                 )}
 
                 {/* MIDDLE SIDE */}
-                {mediumScreens && 
-                    (<FlexBetween gap={largeScreens ? "5rem" : "2rem"}>
+                {sm && 
+                    (<FlexBetween gap={md ? "5rem" : sm ? "2rem" : undefined}>
                         <CustomTooltip title="Home">
                             <Box borderBottom={active === "home" ? "2.5px solid blue" : undefined} >
                                 <IconButton
@@ -201,7 +202,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen,  }) => {
                             </Box>
                         </CustomTooltip>
 
-                        {largeScreens ? 
+                        {md ? 
                             (
                             <CustomTooltip title="Group">
                                 <Box borderBottom={active === "group" ? "2.5px solid blue" : undefined}>
@@ -241,7 +242,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen,  }) => {
                 {/* RIGHT SIDE */}
                 <FlexBetween>   
                     {/* Apps */}
-                    {largeScreens ? (
+                    {md ? (
                         <CustomTooltip title="Menu">
                             <IconButton>
                                 <Apps sx={{ fontSize: "40px" }} />

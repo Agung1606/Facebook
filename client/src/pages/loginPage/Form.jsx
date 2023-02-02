@@ -78,19 +78,25 @@ const Form = () => {
                     token: loggedIn.token
                 })
             );
-            navigate('/home')
+            navigate('/home');
         }
     };
 
     // parameter values are come from Formik
     const handleFormSubmit = async (values, onSubmitProps) => {
-        if(isLogin) await handleLoginSubmit(values, onSubmitProps);
-        if(isRegister) await handleRegisterSubmit(values, onSubmitProps);
+        if(isLogin) {
+            await handleLoginSubmit(values, onSubmitProps);
+        };
+        if(isRegister) {
+            await handleRegisterSubmit(values, onSubmitProps);
+        };
     };
 
     const handleFormType = () => {
         setFormType( formType === "login" ? "register" : "login");
-    }
+    };
+
+    const [loading, setLoading] = useState(false);
 
     return(
         <Formik
@@ -117,6 +123,8 @@ const Form = () => {
                             handleChange={handleChange}
                             handleSubmit={handleSubmit}
                             handleFormType={handleFormType}
+                            loading={loading}
+                            setLoading={setLoading}
                         />
                     }
 

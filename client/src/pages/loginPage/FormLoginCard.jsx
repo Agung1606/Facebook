@@ -5,6 +5,7 @@ import {
     TextField, 
     Typography, 
     useTheme, 
+    CircularProgress,
 } from '@mui/material';
 
 const FormLoginCard = 
@@ -15,7 +16,9 @@ const FormLoginCard =
     handleBlur, 
     handleChange, 
     handleSubmit, 
-    handleFormType
+    handleFormType,
+    loading,
+    setLoading
 }) => {
     const theme = useTheme();
 
@@ -75,8 +78,9 @@ const FormLoginCard =
                                     backgroundColor: "#1665cc"
                                 }
                             }}
+                            onClick={() => setLoading(!loading)}
                         >
-                            Masuk
+                            {loading ? <CircularProgress />  : "Masuk"}
                         </Button>
                     <Typography
                         sx={{
